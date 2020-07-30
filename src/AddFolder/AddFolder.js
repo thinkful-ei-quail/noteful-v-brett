@@ -22,7 +22,7 @@ export default class AddFolder extends React.Component {
       })
       .then((resp) => {
         this.context.addFolder(resp);
-        //console.log(this.context);
+        //console.log(this.context); 
         // allow parent to perform extra behaviour
         this.props.history.push(`/`);
       })
