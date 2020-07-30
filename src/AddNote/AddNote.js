@@ -65,12 +65,13 @@ export default class AddNote extends React.Component {
           placeholder="Enter content."
         />
         <select />
+
         <button
           className="submit-btn"
           name="submit-note"
           id="submit-note"
           onClick={(e) => {
-            this.apiAddNote(e, noteName);
+            this.apiAddNote(e, noteObj);
           }}
         >
           Add New Note
