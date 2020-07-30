@@ -3,25 +3,30 @@ import NotefulForm from "../NotefulForm/NotefulForm";
 import config from "../config";
 import ApiContext from "../ApiContext";
 
-export default class AddFolder extends React.Component {
+export default class AddNote extends React.Component {
   static contextType = ApiContext;
 
-  apiAddFolder(e, name) {
+  apiAddNote(e, name) {
     e.preventDefault();
-    const folderObj = { name: name };
-    fetch(`${config.API_ENDPOINT}/folders/`, {
+    const noteObj = {
+      name: name,
+      folderId: "",
+      content: "",
+    };
+
+    fetch(`${config.API_ENDPOINT}/notes/`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify(folderObj),
+      body: JSON.stringify(noteObj),
     })
       .then((res) => {
         if (!res.ok) return res.json().then((e) => Promise.reject(e));
         return res.json();
       })
       .then((resp) => {
-        this.context.addFolder(resp);
+        this.context.addNote(resp);
         //console.log(this.context);
         // allow parent to perform extra behaviour
         this.props.history.push(`/`);
@@ -32,27 +37,43 @@ export default class AddFolder extends React.Component {
   }
 
   render() {
-    let { folderName } = { folderName: "" };
+    let noteObj = {
+      noteName: "",
+      content: "",
+      folderId: "",
+    };
+
+    let { noteName, content, folderId } = noteObj;
+
     return (
       <NotefulForm>
-        <label htmlFor="form-input-name">Enter a folder name:</label>
+        <label htmlFor="form-input-name">Enter a note name:</label>
         <input
           className="form-input"
           onChange={(e) => {
-            folderName = e.currentTarget.value;
+            noteName = e.currentTarget.value;
           }}
           id="form-input-name"
-          placeholder="Enter folder name."
+          placeholder="Enter note name."
         />
+        <input
+          className="form-input"
+          onChange={(e) => {
+            content = e.currentTarget.value;
+          }}
+          id="form-input-content"
+          placeholder="Enter content."
+        />
+        <select />
         <button
           className="submit-btn"
-          name="submit-folder"
-          id="submit-folder"
+          name="submit-note"
+          id="submit-note"
           onClick={(e) => {
-            this.apiAddFolder(e, folderName);
+            this.apiAddNote(e, noteName);
           }}
         >
-          Add New Folder
+          Add New Note
         </button>
       </NotefulForm>
     );
