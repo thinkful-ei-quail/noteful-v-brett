@@ -6,20 +6,15 @@ import ApiContext from "../ApiContext";
 export default class AddNote extends React.Component {
   static contextType = ApiContext;
 
-  apiAddNote(e, name) {
+  apiAddNote(e, note) {
     e.preventDefault();
-    const noteObj = {
-      name: name,
-      folderId: "",
-      content: "",
-    };
-
+    console.log(note);
     fetch(`${config.API_ENDPOINT}/notes/`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify(noteObj),
+      body: JSON.stringify(note),
     })
       .then((res) => {
         if (!res.ok) return res.json().then((e) => Promise.reject(e));
@@ -37,13 +32,9 @@ export default class AddNote extends React.Component {
   }
 
   render() {
-    let noteObj = {
-      noteName: "",
-      content: "",
-      folderId: "",
-    };
+    let note = { name:"", content:"", folderId:"",modified: new Date()} 
 
-    let { noteName, content, folderId } = noteObj;
+    
 
     return (
       <NotefulForm>
@@ -51,7 +42,8 @@ export default class AddNote extends React.Component {
         <input
           className="form-input"
           onChange={(e) => {
-            noteName = e.currentTarget.value;
+            note.name = e.currentTarget.value;
+            console.log(note.name);
           }}
           id="form-input-name"
           placeholder="Enter note name."
@@ -59,18 +51,27 @@ export default class AddNote extends React.Component {
         <input
           className="form-input"
           onChange={(e) => {
-            content = e.currentTarget.value;
+            note.content = e.currentTarget.value;
           }}
           id="form-input-content"
           placeholder="Enter content."
         />
-        <select />
+        <select onChange={(e)=>{
+          note.folderId = e.currentTarget.value;
+          console.log(note.modified.now());
+        }}>
+          <option value="jshsfdfk">potato1</option>
+          <option value="jshsfsdafdfk">potato2</option>
+          <option value="jshsfdasfasfk">potato3</option>
+          <option value="jshsfasfsafdfk">potato4</option>
+        </select>
+
         <button
           className="submit-btn"
           name="submit-note"
           id="submit-note"
           onClick={(e) => {
-            this.apiAddNote(e, noteName);
+            this.apiAddNote(e, note);
           }}
         >
           Add New Note
