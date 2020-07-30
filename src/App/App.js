@@ -7,14 +7,15 @@ import NoteListMain from "../NoteListMain/NoteListMain";
 import NotePageMain from "../NotePageMain/NotePageMain";
 import ApiContext from "../ApiContext";
 import AddFolder from "../AddFolder/AddFolder";
-
 import config from "../config";
 import "./App.css";
+
 
 class App extends Component {
   state = {
     notes: [],
     folders: [],
+    
   };
 
   componentDidMount() {
@@ -42,8 +43,12 @@ class App extends Component {
       notes: this.state.notes.filter((note) => note.id !== noteId),
     });
   };
-
-  handleAddFolder = (params) => {};
+  
+  handleAddFolder = (folder) => {
+      let tmpFolders = this.state.folders;
+      tmpFolders.push(folder);
+      this.setState({});
+  };
   renderNavRoutes() {
     return (
       <>
@@ -51,7 +56,7 @@ class App extends Component {
           <Route exact key={path} path={path} component={NoteListNav} />
         ))}
         <Route path="/note/:noteId" component={NotePageNav} />
-        <Route path="/add-folder" component={AddFolder} />
+        <Route path="/add-folder" component={NotePageNav} />
         <Route path="/add-note" component={NotePageNav} />
       </>
     );
@@ -64,6 +69,7 @@ class App extends Component {
           <Route exact key={path} path={path} component={NoteListMain} />
         ))}
         <Route path="/note/:noteId" component={NotePageMain} />
+        <Route path="/add-folder" component={AddFolder} />
       </>
     );
   }
