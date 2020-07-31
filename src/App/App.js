@@ -15,7 +15,7 @@ class App extends Component {
   state = {
     notes: [],
     folders: [],
-    index:0
+    index: 0,
   };
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class App extends Component {
         return Promise.all([notesRes.json(), foldersRes.json()]);
       })
       .then(([notes, folders]) => {
-        this.setState({notes, folders });
+        this.setState({ notes, folders });
       })
       .catch((error) => {
         console.error({ error });
@@ -39,9 +39,8 @@ class App extends Component {
   }
 
   handleDeleteNote = (noteId) => {
-    console.log(noteId)
+    //console.log(noteId)
     this.setState({
-        
       notes: this.state.notes.filter((note) => note.id !== noteId),
     });
   };
@@ -57,7 +56,6 @@ class App extends Component {
     tmpNotes.push(note);
     this.setState({});
   };
-  
 
   renderNavRoutes() {
     return (
@@ -91,7 +89,7 @@ class App extends Component {
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
       addFolder: this.handleAddFolder,
-      addNote: this.handleAddNote
+      addNote: this.handleAddNote,
     };
     return (
       <ApiContext.Provider value={value}>
@@ -103,7 +101,6 @@ class App extends Component {
               <FontAwesomeIcon icon="check-double" />
               Purple Edition.
             </h1>
-            
           </header>
           <main className="App__main">{this.renderMainRoutes()}</main>
         </div>

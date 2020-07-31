@@ -58,15 +58,17 @@ export default class AddFolder extends React.Component {
 
   render() {
     const nameError = this.validateName();
-
-    let { folderName } = { folderName: "" };
+    //let { folderName } = { folderName: "hmm" };
+    let folderName = this.state.name.value;
     return (
       <NotefulForm>
         <label htmlFor="form-input-name">Enter a folder name:</label>
         <input
           className="form-input"
           onChange={(e) => {
+            console.log("updateName: ", this.updateName(e.currentTarget.value));
             folderName = e.currentTarget.value;
+            console.log("folderName first: ", folderName);
           }}
           id="form-input-name"
           placeholder="Enter folder name."
@@ -76,7 +78,8 @@ export default class AddFolder extends React.Component {
           name="submit-folder"
           id="submit-folder"
           onClick={(e) => {
-            this.updateName(folderName);
+            // this.updateName(folderName);
+            console.log("folderName: ", folderName);
             this.apiAddFolder(e, folderName);
           }}
         >

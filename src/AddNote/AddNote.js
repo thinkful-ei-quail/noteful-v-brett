@@ -17,7 +17,7 @@ export default class AddNote extends React.Component {
   }
   apiAddNote(e, note) {
     e.preventDefault();
-    console.log(note);
+    //console.log(note);
     fetch(`${config.API_ENDPOINT}/notes/`, {
       method: "POST",
       headers: {
@@ -48,7 +48,7 @@ export default class AddNote extends React.Component {
       id: v4(),
     };
 
-    console.log(note.id);
+    //console.log(note.id);
 
     return (
       <NotefulForm>
@@ -57,7 +57,7 @@ export default class AddNote extends React.Component {
           className="form-input"
           onChange={(e) => {
             note.name = e.currentTarget.value;
-            console.log(note.name);
+            //console.log(note.name);
           }}
           id="form-input-name"
           placeholder="Enter note name."
