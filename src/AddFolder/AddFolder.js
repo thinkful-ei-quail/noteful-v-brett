@@ -1,8 +1,11 @@
+/* eslint-disable no-useless-escape */
 import React from "react";
 import NotefulForm from "../NotefulForm/NotefulForm";
 import config from "../config";
 import ApiContext from "../ApiContext";
 import FormValidator from "../FormValidator/FormValidator";
+
+import "./AddFolder.css";
 
 export default class AddFolder extends React.Component {
   static contextType = ApiContext;
@@ -12,7 +15,7 @@ export default class AddFolder extends React.Component {
     this.state = {
       name: {
         value: "",
-        touched: true,
+        touched: false,
       },
     };
   }
@@ -24,11 +27,25 @@ export default class AddFolder extends React.Component {
 
   validateName() {
     const name = this.state.name.value.trim();
+    //name.replace(/[^a-zA-Z0-9"-"]/g, "");
     if (name.length === 0) {
-      return "Name is required";
+      return "Folder name is required";
     } else if (name.length < 3) {
-      return "Name must be at least 3 characters long";
+      return "Folder name must be at least 3 characters";
     }
+  }
+
+  validateSymbols() {
+    const name = this.state.name.value.trim();
+
+    const regex = /[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]/g;
+    if (regex.test(name))
+      return "Special characters besides [space] and [-] will be removed";
+  }
+
+  removeSpecialChars() {
+    const name = this.state.name.value.trim();
+    return name.replace(/[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]/g, "");
   }
 
   populateOptions;
@@ -48,7 +65,6 @@ export default class AddFolder extends React.Component {
       })
       .then((resp) => {
         this.context.addFolder(resp);
-
         this.props.history.push(`/`);
       })
       .catch((error) => {
@@ -58,7 +74,8 @@ export default class AddFolder extends React.Component {
 
   render() {
     const nameError = this.validateName();
-    //let { folderName } = { folderName: "hmm" };
+    const symbolError = this.validateSymbols();
+
     let folderName = this.state.name.value;
     return (
       <NotefulForm>
@@ -66,26 +83,28 @@ export default class AddFolder extends React.Component {
         <input
           className="form-input"
           onChange={(e) => {
-            console.log("updateName: ", this.updateName(e.currentTarget.value));
+            this.updateName(e.currentTarget.value);
             folderName = e.currentTarget.value;
-            console.log("folderName first: ", folderName);
           }}
           id="form-input-name"
           placeholder="Enter folder name."
         />
         <button
+          disabled={this.validateName()}
           className="submit-btn"
           name="submit-folder"
           id="submit-folder"
           onClick={(e) => {
-            // this.updateName(folderName);
-            console.log("folderName: ", folderName);
+            folderName = this.updateName(this.removeSpecialChars(folderName));
             this.apiAddFolder(e, folderName);
           }}
         >
           Add New Folder
         </button>
-        {this.state.name.touched && <FormValidator message={nameError} />}
+        <div className="errorMessages">
+          {this.state.name.touched && <FormValidator message={nameError} />}
+          {this.state.name.touched && <FormValidator message={symbolError} />}
+        </div>
       </NotefulForm>
     );
   }
