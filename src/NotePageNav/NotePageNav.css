@@ -3,11 +3,11 @@
   margin: 45px 20px 25px auto
 }
 .NotePageNav__back-button:hover {
-  background-color: #FFB72F;
+  background-color: #fad3ff;
 }
 
 .NotePageNav__folder-name {
-  color: #b5b3b3;
+  color: #ffffff;
   font-family: var(--custom-font);
   font-size: 40px;
   height: 50vh;
