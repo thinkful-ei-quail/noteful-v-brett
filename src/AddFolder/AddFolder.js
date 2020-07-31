@@ -81,7 +81,7 @@ export default class AddFolder extends React.Component {
           name="submit-folder"
           id="submit-folder"
           onClick={(e) => {
-            this.apiAddFolder(e, folderName);
+            this.apiAddFolder(e, this.state.name.value);
           }}
         >
           Add New Folder
