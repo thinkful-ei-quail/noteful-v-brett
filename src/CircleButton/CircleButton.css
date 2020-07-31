@@ -1,9 +1,9 @@
 
 .NavCircleButton {
-  background-color: #cacaca;
-  border-radius: 30px;
-  border: 0;
-  color: black;
+  background-color: #8d7eb8;
+  border-radius: 5px;
+  border: 1px solid white;
+  color: rgb(255, 255, 255);
   display: block;
   font-size: 12px;
   font-weight: bold;
