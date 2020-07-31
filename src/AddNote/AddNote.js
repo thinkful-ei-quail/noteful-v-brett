@@ -30,8 +30,7 @@ export default class AddNote extends React.Component {
       })
       .then((resp) => {
         this.context.addNote(resp);
-        //console.log(this.context);
-        // allow parent to perform extra behaviour
+    
         this.props.history.push(`/`);
       })
       .catch((error) => {
