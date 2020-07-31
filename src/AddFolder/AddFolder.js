@@ -2,11 +2,36 @@ import React from "react";
 import NotefulForm from "../NotefulForm/NotefulForm";
 import config from "../config";
 import ApiContext from "../ApiContext";
+import FormValidator from "../FormValidator/FormValidator";
 
 export default class AddFolder extends React.Component {
   static contextType = ApiContext;
 
-  populateOptions
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: {
+        value: "",
+        touched: true,
+      },
+    };
+  }
+
+  updateName(name) {
+    this.setState({ name: { value: name, touched: true } });
+    return name;
+  }
+
+  validateName() {
+    const name = this.state.name.value.trim();
+    if (name.length === 0) {
+      return "Name is required";
+    } else if (name.length < 3) {
+      return "Name must be at least 3 characters long";
+    }
+  }
+
+  populateOptions;
   apiAddFolder(e, name) {
     e.preventDefault();
     const folderObj = { name: name };
@@ -32,6 +57,8 @@ export default class AddFolder extends React.Component {
   }
 
   render() {
+    const nameError = this.validateName();
+
     let { folderName } = { folderName: "" };
     return (
       <NotefulForm>
@@ -49,11 +76,13 @@ export default class AddFolder extends React.Component {
           name="submit-folder"
           id="submit-folder"
           onClick={(e) => {
+            this.updateName(folderName);
             this.apiAddFolder(e, folderName);
           }}
         >
           Add New Folder
         </button>
+        {this.state.name.touched && <FormValidator message={nameError} />}
       </NotefulForm>
     );
   }
