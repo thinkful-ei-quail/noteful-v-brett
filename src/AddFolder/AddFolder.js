@@ -6,6 +6,7 @@ import ApiContext from "../ApiContext";
 export default class AddFolder extends React.Component {
   static contextType = ApiContext;
 
+  populateOptions
   apiAddFolder(e, name) {
     e.preventDefault();
     const folderObj = { name: name };

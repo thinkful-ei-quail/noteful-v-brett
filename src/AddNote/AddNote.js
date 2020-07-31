@@ -2,10 +2,18 @@ import React from "react";
 import NotefulForm from "../NotefulForm/NotefulForm";
 import config from "../config";
 import ApiContext from "../ApiContext";
+import {v4} from "uuid";
+
 
 export default class AddNote extends React.Component {
   static contextType = ApiContext;
+  populateOptions()
+  {
+    return this.context.folders.map((folder)=>{
+    return <option key={folder.id} value={folder.id}>{folder.name}</option>
 
+    })
+  }
   apiAddNote(e, note) {
     e.preventDefault();
     console.log(note);
@@ -32,9 +40,9 @@ export default class AddNote extends React.Component {
   }
 
   render() {
-    let note = { name:"", content:"", folderId:"",modified: new Date()} 
+    let note = { name:"", content:"", folderId:"",modified: new Date(), id:v4()} 
 
-    
+    console.log(note.id);
 
     return (
       <NotefulForm>
@@ -56,14 +64,13 @@ export default class AddNote extends React.Component {
           id="form-input-content"
           placeholder="Enter content."
         />
-        <select onChange={(e)=>{
+        
+        <select defaultValue="default" onChange={(e)=>{
           note.folderId = e.currentTarget.value;
-          console.log(note.modified.now());
+          
         }}>
-          <option value="jshsfdfk">potato1</option>
-          <option value="jshsfsdafdfk">potato2</option>
-          <option value="jshsfdasfasfk">potato3</option>
-          <option value="jshsfasfsafdfk">potato4</option>
+          <option value="default">Pick a Folder:</option>
+          {this.populateOptions()}
         </select>
 
         <button
