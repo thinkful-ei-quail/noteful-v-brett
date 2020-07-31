@@ -2,11 +2,37 @@ import React from "react";
 import NotefulForm from "../NotefulForm/NotefulForm";
 import config from "../config";
 import ApiContext from "../ApiContext";
+import FormValidator from "../FormValidator/FormValidator";
 
 export default class AddFolder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.nameInput = React.createRef();
+    this.state = {
+      name: {
+        value: "",
+        touched: true,
+      },
+    };
+  }
+
+  updateName(name) {
+    //const {name} = this.state;
+    this.setState({ name: { value: name, touched: true } });
+  }
+
+  validateName() {
+    const name = this.state.name.value.trim();
+    if (name.length === 0) {
+      return "Name is required";
+    } else if (name.length < 3) {
+      return "Name must be at least 3 characters long";
+    }
+  }
+
   static contextType = ApiContext;
 
-  populateOptions
+  populateOptions;
   apiAddFolder(e, name) {
     e.preventDefault();
     const folderObj = { name: name };
@@ -32,19 +58,25 @@ export default class AddFolder extends React.Component {
   }
 
   render() {
+    const nameError = this.validateName();
     let { folderName } = { folderName: "" };
     return (
       <NotefulForm>
         <label htmlFor="form-input-name">Enter a folder name:</label>
         <input
+          ref={this.nameInput}
           className="form-input"
           onChange={(e) => {
+            this.updateName(e.target.value);
             folderName = e.currentTarget.value;
           }}
           id="form-input-name"
           placeholder="Enter folder name."
         />
+        {this.state.name.touched && <FormValidator message={nameError} />}
+
         <button
+          disabled={this.validateName()}
           className="submit-btn"
           name="submit-folder"
           id="submit-folder"
