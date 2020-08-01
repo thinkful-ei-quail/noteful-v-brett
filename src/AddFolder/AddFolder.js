@@ -4,6 +4,9 @@ import NotefulForm from "../NotefulForm/NotefulForm";
 import config from "../config";
 import ApiContext from "../ApiContext";
 import FormValidator from "../FormValidator/FormValidator";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 
 import "./AddFolder.css";
 
@@ -27,20 +30,34 @@ export default class AddFolder extends React.Component {
 
   validateName() {
     const name = this.state.name.value.trim();
-    //name.replace(/[^a-zA-Z0-9"-"]/g, "");
-    if (name.length === 0) {
-      return "Folder name is required";
-    } else if (name.length < 3) {
-      return "Folder name must be at least 3 characters";
+    const err = " Folder name is required";
+    if (this.removeSpecialChars(name).length === 0) {
+      return (
+        <div className="critical">
+          <FontAwesomeIcon
+            className="criticalIcon"
+            icon={faExclamationCircle}
+          />
+          {err}
+        </div>
+      );
     }
   }
 
   validateSymbols() {
     const name = this.state.name.value.trim();
-
-    const regex = /[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]/g;
-    if (regex.test(name))
-      return "Special characters besides [space] and [-] will be removed";
+    const err = " Special characters besides [space] and [-] will be removed";
+    const symbols = /[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]/g;
+    if (symbols.test(name))
+      return (
+        <div className="warning">
+          <FontAwesomeIcon
+            className="warningIcon"
+            icon={faExclamationTriangle}
+          />
+          {err}
+        </div>
+      );
   }
 
   removeSpecialChars() {
@@ -48,7 +65,8 @@ export default class AddFolder extends React.Component {
     return name.replace(/[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]/g, "");
   }
 
-  populateOptions;
+  //populateOptions; //? <-- I don't know if this was something I did or not, doesn't seem to do anything
+
   apiAddFolder(e, name) {
     e.preventDefault();
     const folderObj = { name: name };
@@ -94,6 +112,9 @@ export default class AddFolder extends React.Component {
           className="submit-btn"
           name="submit-folder"
           id="submit-folder"
+          onMouseEnter={(e) => {
+            this.updateName(folderName);
+          }}
           onClick={(e) => {
             folderName = this.updateName(this.removeSpecialChars(folderName));
             this.apiAddFolder(e, folderName);

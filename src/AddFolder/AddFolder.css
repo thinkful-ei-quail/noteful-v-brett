@@ -1,3 +1,24 @@
 .errorMessages {
+  margin: 2px;
+  padding: 2px;
   font-size: 50%;
+}
+
+.critical,
+.warning {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.criticalIcon {
+  color: rgba(255, 0, 0, 0.5);
+}
+
+.warningIcon {
+  color: rgba(255, 255, 0, 0.5);
+}
+
+a.NoteListNav__folder-link {
+  border-radius: 5px;
 }

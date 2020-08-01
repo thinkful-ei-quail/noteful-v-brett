@@ -1,8 +1,7 @@
-
 .Note {
   --note-height: 88px;
   background-color: hsl(282, 100%, 97%);
-  
+  border-radius: 5px;
   color: #000000;
   height: var(--note-height);
   margin-bottom: 8px;

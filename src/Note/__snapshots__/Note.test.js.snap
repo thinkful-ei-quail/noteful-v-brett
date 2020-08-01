@@ -14,6 +14,7 @@ exports[`Note component renders a .Note by default 1`] = `
   </h2>
   <button
     className="Note__delete"
+    onClick={[Function]}
     type="button"
   >
     <FontAwesomeIcon
@@ -34,8 +35,7 @@ exports[`Note component renders a .Note by default 1`] = `
       title=""
       transform={null}
     />
-     
-    remove
+     remove
   </button>
   <div
     className="Note__dates"
@@ -71,6 +71,7 @@ exports[`Note component renders the Note given props 1`] = `
   </h2>
   <button
     className="Note__delete"
+    onClick={[Function]}
     type="button"
   >
     <FontAwesomeIcon
@@ -91,8 +92,7 @@ exports[`Note component renders the Note given props 1`] = `
       title=""
       transform={null}
     />
-     
-    remove
+     remove
   </button>
   <div
     className="Note__dates"
