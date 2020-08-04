@@ -61,27 +61,27 @@ class App extends Component {
 
   renderNavRoutes() {
     return (
-      <>
+      <CatchErr>
         {["/", "/folder/:folderId"].map((path) => (
           <Route exact key={path} path={path} component={NoteListNav} />
         ))}
         <Route path="/note/:noteId" component={NotePageNav} />
         <Route path="/add-folder" component={NotePageNav} />
         <Route path="/add-note" component={NotePageNav} />
-      </>
+      </CatchErr>
     );
   }
 
   renderMainRoutes() {
     return (
-      <>
+      <CatchErr>
         {["/", "/folder/:folderId"].map((path) => (
           <Route exact key={path} path={path} component={NoteListMain} />
         ))}
         <Route path="/note/:noteId" component={NotePageMain} />
         <Route path="/add-folder" component={AddFolder} />
         <Route path="/add-note" component={AddNote} />
-      </>
+      </CatchErr>
     );
   }
 
