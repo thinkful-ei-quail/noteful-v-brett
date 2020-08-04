@@ -18,8 +18,10 @@ export default class AddNote extends React.Component {
         name: "",
         content: "",
         folderId: "",
-        touched: false,
       },
+      nameTouched: false,
+      contentTouched: false,
+      folderTouched: false,
     };
   }
 
@@ -29,14 +31,12 @@ export default class AddNote extends React.Component {
         name: note.name,
         content: note.content,
         folderId: note.folderId,
-        touched: true,
       },
     });
     return note;
   }
 
   validateName() {
-    console.log(this.state.note);
     const name = this.state.note.name.trim();
     const err = " Note name is required";
     if (this.removeSpecialChars(name).length === 0) {
@@ -77,6 +77,7 @@ export default class AddNote extends React.Component {
   validateContent() {
     const content = this.state.note.content.trim();
     const err = " Content is required";
+
     if (content.length === 0) {
       return (
         <div className="critical">
@@ -91,19 +92,20 @@ export default class AddNote extends React.Component {
   }
 
   validateFolderId() {
-    // const content = this.state.note.content.trim();
-    // const err = " content is required";
-    // if (content.length === 0) {
-    //   return (
-    //     <div className="critical">
-    //       <FontAwesomeIcon
-    //         className="criticalIcon"
-    //         icon={faExclamationCircle}
-    //       />
-    //       {err}
-    //     </div>
-    //   );
-    // }
+    const folder = this.state.note.folderId;
+    const err = " Please choose a folder";
+
+    if (folder.length === 0 || folder === "default") {
+      return (
+        <div className="critical">
+          <FontAwesomeIcon
+            className="criticalIcon"
+            icon={faExclamationCircle}
+          />
+          {err}
+        </div>
+      );
+    }
   }
 
   static contextType = ApiContext;
@@ -119,7 +121,7 @@ export default class AddNote extends React.Component {
 
   apiAddNote(e, note) {
     e.preventDefault();
-    //console.log(note);
+
     fetch(`${config.API_ENDPOINT}/notes/`, {
       method: "POST",
       headers: {
@@ -133,7 +135,6 @@ export default class AddNote extends React.Component {
       })
       .then((resp) => {
         this.context.addNote(resp);
-
         this.props.history.push(`/`);
       })
       .catch((error) => {
@@ -149,14 +150,11 @@ export default class AddNote extends React.Component {
       modified: new Date(),
       id: v4(),
     };
-    //console.log(note.id);
 
-    const nameError = this.validateName();
-    const symbolError = this.validateSymbols();
-    const contentError = this.validateContent();
-    const folderIdError = this.validateFolderId();
-
-    const errors = [nameError, symbolError, contentError, folderIdError];
+    const nameErr = this.validateName();
+    const symbolErr = this.validateSymbols();
+    const contentErr = this.validateContent();
+    const folderErr = this.validateFolderId();
 
     return (
       <NotefulForm>
@@ -164,9 +162,9 @@ export default class AddNote extends React.Component {
         <input
           className="form-input"
           onChange={(e) => {
+            this.setState({ nameTouched: true });
             note.name = e.currentTarget.value;
             this.updateNote(note);
-            //console.log(note.name);
           }}
           id="form-input-name"
           placeholder="Enter note name."
@@ -174,6 +172,7 @@ export default class AddNote extends React.Component {
         <input
           className="form-input"
           onChange={(e) => {
+            this.setState({ contentTouched: true });
             note.content = e.currentTarget.value;
             this.updateNote(note);
           }}
@@ -184,7 +183,9 @@ export default class AddNote extends React.Component {
         <select
           defaultValue="default"
           onChange={(e) => {
+            this.setState({ folderTouched: true });
             note.folderId = e.currentTarget.value;
+            this.updateNote(note);
           }}
         >
           <option value="default">Pick a Folder:</option>
@@ -192,30 +193,35 @@ export default class AddNote extends React.Component {
         </select>
 
         <button
-          disabled={nameError || contentError} //! - || folderIdError
           className="submit-btn"
           name="submit-note"
           id="submit-note"
-          onMouseEnter={(e) => {
-            this.updateNote(note); //? - is there a better way?
-          }}
           onClick={(e) => {
-            console.log("note before ", note);
-            this.removeSpecialChars(note.name);
-            note.name = this.updateNote(note);
-            console.log("note after", note);
-            this.apiAddNote(e, note);
+            this.setState({ nameTouched: true });
+            this.setState({ contentTouched: true });
+            this.setState({ folderTouched: true });
+            if (!nameErr && !contentErr && !folderErr) {
+              console.log(
+                "submitted passed: ",
+                !nameErr,
+                !contentErr,
+                !folderErr
+              );
+              note.name = this.removeSpecialChars(note.name);
+              this.updateNote(note);
+              this.apiAddNote(e, note);
+            }
           }}
         >
           Add New Note
         </button>
         <div className="errorMessages">
-          {this.state.note.touched && <FormValidator message={symbolError} />}
-          {this.state.note.touched && <FormValidator message={nameError} />}
-          {this.state.note.touched && <FormValidator message={contentError} />}
-          {/*this.state.note.touched && <FormValidator message={folderIdError} />*/}
+          {this.state.nameTouched && <FormValidator message={symbolErr} />}
+          {this.state.nameTouched && <FormValidator message={nameErr} />}
+          {this.state.contentTouched && <FormValidator message={contentErr} />}
+          {this.state.folderTouched && <FormValidator message={folderErr} />}
         </div>
       </NotefulForm>
-    ); //TODO - Here be where ye left off - Make this an array
+    );
   }
 }
