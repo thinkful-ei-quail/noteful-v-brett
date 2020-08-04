@@ -108,16 +108,12 @@ export default class AddFolder extends React.Component {
           placeholder="Enter folder name."
         />
         <button
-          disabled={this.validateName()}
           className="submit-btn"
           name="submit-folder"
           id="submit-folder"
-          onMouseEnter={(e) => {
-            this.updateName(folderName);
-          }}
           onClick={(e) => {
             folderName = this.updateName(this.removeSpecialChars(folderName));
-            this.apiAddFolder(e, folderName);
+            if (!nameError) this.apiAddFolder(e, folderName);
           }}
         >
           Add New Folder

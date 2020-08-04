@@ -160,6 +160,7 @@ export default class AddNote extends React.Component {
       <NotefulForm>
         <label htmlFor="form-input-name">Enter a note name:</label>
         <input
+          value={this.state.note.name}
           className="form-input"
           onChange={(e) => {
             this.setState({ nameTouched: true });
@@ -197,16 +198,16 @@ export default class AddNote extends React.Component {
           name="submit-note"
           id="submit-note"
           onClick={(e) => {
+            console.log(
+              "submitted passed: ",
+              !nameErr,
+              !contentErr,
+              !folderErr
+            );
             this.setState({ nameTouched: true });
             this.setState({ contentTouched: true });
             this.setState({ folderTouched: true });
             if (!nameErr && !contentErr && !folderErr) {
-              console.log(
-                "submitted passed: ",
-                !nameErr,
-                !contentErr,
-                !folderErr
-              );
               note.name = this.removeSpecialChars(note.name);
               this.updateNote(note);
               this.apiAddNote(e, note);
