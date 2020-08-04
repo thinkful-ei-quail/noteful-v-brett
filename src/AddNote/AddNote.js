@@ -207,9 +207,9 @@ export default class AddNote extends React.Component {
             this.setState({ nameTouched: true });
             this.setState({ contentTouched: true });
             this.setState({ folderTouched: true });
+            note.name = this.removeSpecialChars(note.name);
+            this.updateNote(note);
             if (!nameErr && !contentErr && !folderErr) {
-              note.name = this.removeSpecialChars(note.name);
-              this.updateNote(note);
               this.apiAddNote(e, note);
             }
           }}
