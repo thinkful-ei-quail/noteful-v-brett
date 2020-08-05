@@ -18,7 +18,8 @@ export default class CatchErr extends React.Component {
         <div className="catchErr">
           <h2> Great, you broke it!</h2>
           <h3> Just kidding, it probably wasn't your fault</h3>
-          <h3> ...or was it? -_-</h3>
+          <h3> ...or was it?</h3>
+          <p> -_- I'm watching you....</p>
         </div>
       );
     }

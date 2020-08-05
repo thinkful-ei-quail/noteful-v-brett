@@ -63,3 +63,4 @@ export default class Note extends React.Component {
     );
   }
 }
+//! - findMe = Note needs proptype

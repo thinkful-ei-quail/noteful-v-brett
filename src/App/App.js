@@ -53,9 +53,7 @@ class App extends Component {
 
   handleAddNote = (note) => {
     let tmpNotes = this.state.notes;
-    console.log("tmpNotes before :", tmpNotes);
     tmpNotes.push(note);
-    console.log("tmpNotes after :", tmpNotes);
     this.setState({});
   };
 

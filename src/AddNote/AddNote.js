@@ -198,12 +198,6 @@ export default class AddNote extends React.Component {
           name="submit-note"
           id="submit-note"
           onClick={(e) => {
-            console.log(
-              "submitted passed: ",
-              !nameErr,
-              !contentErr,
-              !folderErr
-            );
             this.setState({ nameTouched: true });
             this.setState({ contentTouched: true });
             this.setState({ folderTouched: true });
