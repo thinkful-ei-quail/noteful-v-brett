@@ -8,7 +8,6 @@ import FormValidator from "../FormValidator/FormValidator";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import { isThisMinute } from "date-fns"; //? - Unused? Didn't want to delete without checking
 
 export default class AddNote extends React.Component {
   constructor(props) {
