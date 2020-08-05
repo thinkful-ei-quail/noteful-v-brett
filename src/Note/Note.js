@@ -6,6 +6,7 @@ import ApiContext from "../ApiContext";
 import config from "../config";
 import "./Note.css";
 import CatchErr from "../CatchErr";
+import PropTypes from "prop-types";
 
 export default class Note extends React.Component {
   static defaultProps = {
@@ -63,4 +64,11 @@ export default class Note extends React.Component {
     );
   }
 }
-//! - findMe = Note needs proptype
+
+Note.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  modified: PropTypes.string.isRequired,
+  onDeleteNote: PropTypes.func.isRequired,
+};
+
