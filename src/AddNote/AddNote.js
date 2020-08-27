@@ -120,7 +120,7 @@ export default class AddNote extends React.Component {
 
   apiAddNote(e, note) {
     e.preventDefault();
-
+    console.log(note);
     fetch(`${config.API_ENDPOINT}/notes/`, {
       method: "POST",
       headers: {
